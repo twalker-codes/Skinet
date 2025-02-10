@@ -1,0 +1,7 @@
+API/bin
+API/obj
+.vscode
+Core/bin
+Core/obj
+Infrastructure/bin
+Infrastructure/obj
