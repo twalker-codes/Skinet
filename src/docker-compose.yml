@@ -1,8 +1,36 @@
+version: "3.8"
 services:
   sql:
     image: mcr.microsoft.com/azure-sql-edge
+    container_name: skinet-sql  # Assign a specific name
     environment:
       ACCEPT_EULA: "1"
       MSSQL_SA_PASSWORD: "Password@1"
     ports:
       - "1433:1433"
+    volumes:
+      - ./mssql:/var/opt/mssql
+    networks:
+      - skinet_network  # Assign to a custom network
+    labels:
+      group: "Skinet"
+
+  redis:
+    image: redis:latest
+    container_name: skinet-redis  # Assign a specific name
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - skinet_network  # Assign to the same custom network
+    labels:
+      group: "Skinet"
+
+volumes:
+  redis-data:
+  sql-data:
+
+networks:
+  skinet_network:  # Define the network
+    driver: bridge
