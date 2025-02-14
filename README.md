@@ -171,13 +171,3 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 ## 🏆 License
 
 This project is licensed under the MIT License.
-
----
-
-## 📞 Contact
-
-For any inquiries or support, please contact [your-email@example.com](mailto:your-email@example.com).
-
----
-
-*Note: Replace placeholder values (e.g., `YOUR_SERVER`, `YOUR_SECRET_KEY`, `your-email@example.com`) with actual values specific to your setup.*
