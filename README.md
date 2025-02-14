@@ -1,6 +1,6 @@
-# 🛒 ECommerceApp - ASP.NET Core Web API & Angular
+# 🛒 Skinet - ASP.NET Core Web API & Angular
 
-**ECommerceApp** is a comprehensive e-commerce platform built with ASP.NET Core Web API and Angular. This application provides a seamless shopping experience, integrating robust backend services with a dynamic, responsive frontend.
+**Skinet** is a comprehensive e-commerce platform built with ASP.NET Core Web API and Angular. This application provides a seamless shopping experience, integrating robust backend services with a dynamic, responsive frontend.
 
 ---
 
@@ -44,8 +44,8 @@ Ensure you have the following installed:
 ### 2️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/twalker-codes/ECommerceApp.git
-cd ECommerceApp
+git clone https://github.com/twalker-codes/Skinet.git
+cd Skinet
 ```
 
 ### 3️⃣ Backend Setup
@@ -53,7 +53,7 @@ cd ECommerceApp
 Navigate to the API project directory:
 
 ```bash
-cd src/ECommerceApp.API
+cd src/Skinet.API
 ```
 
 Restore NuGet packages:
@@ -67,11 +67,11 @@ Update the `appsettings.json` file with your database connection string and othe
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=YOUR_SERVER;Database=ECommerceDb;Trusted_Connection=True;"
+    "DefaultConnection": "Server=YOUR_SERVER;Database=SkinetDb;Trusted_Connection=True;"
   },
   "JwtSettings": {
     "Key": "YOUR_SECRET_KEY",
-    "Issuer": "ECommerceApp",
+    "Issuer": "SkinetApp",
     "Audience": "ECommerceAppUsers",
     "DurationInMinutes": 60
   },
@@ -105,7 +105,7 @@ The API will be accessible at `https://localhost:5001`.
 Navigate to the Angular project directory:
 
 ```bash
-cd ../ECommerceApp.Client
+cd ../SkinetApp.Client
 ```
 
 Install dependencies:
@@ -171,13 +171,3 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 ## 🏆 License
 
 This project is licensed under the MIT License.
-
----
-
-## 📞 Contact
-
-For any inquiries or support, please contact [your-email@example.com](mailto:your-email@example.com).
-
----
-
-*Note: Replace placeholder values (e.g., `YOUR_SERVER`, `YOUR_SECRET_KEY`, `your-email@example.com`) with actual values specific to your setup.*
