@@ -12,10 +12,13 @@ import { ShopParams } from '../../shared/models/shopParams';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Pagination } from '../../shared/models/pagination';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shop',
+  standalone: true,
   imports: [
+    CommonModule,
     ProductItemComponent,
     MatButton,
     MatIcon,
