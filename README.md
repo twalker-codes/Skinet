@@ -1,6 +1,6 @@
-# 🛒 ECommerceApp - ASP.NET Core Web API & Angular
+# 🛒 Skinet - ASP.NET Core Web API & Angular
 
-**ECommerceApp** is a comprehensive e-commerce platform built with ASP.NET Core Web API and Angular. This application provides a seamless shopping experience, integrating robust backend services with a dynamic, responsive frontend.
+**Skinet** is a comprehensive e-commerce platform built with ASP.NET Core Web API and Angular. This application provides a seamless shopping experience, integrating robust backend services with a dynamic, responsive frontend.
 
 ---
 
