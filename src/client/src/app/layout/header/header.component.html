@@ -18,8 +18,11 @@
               class="no-underline text-black hover:no-underline">Errors</a> 
         </nav>
         <div class="flex gap-3 align-middle">
-            <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
-                <mat-icon>shopping_cart</mat-icon>
+            <a routerLink="/cart" routerLinkActive="active"  
+               matBadge="{{cartService.itemCount()}}" 
+               matBadgeSize="large" 
+               class="custom-badge mt-2 mr-2">
+               <mat-icon class="inline-block origin-center transform scale-[1.5]">shopping_cart</mat-icon>
             </a>
             <button mat-stroked-button>Login</button>
             <button mat-stroked-button>Register</button>

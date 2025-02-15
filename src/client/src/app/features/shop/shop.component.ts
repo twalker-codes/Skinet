@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ShopService } from '../../core/service/shop.service';
+import { ShopService } from '../../core/services/shop.service';
 import { Product } from '../../shared/models/product';
 import { ProductItemComponent } from "./product-item/product-item.component";
 import { FiltersDialogComponent } from './filters-dialog/filters-dialog.component';
