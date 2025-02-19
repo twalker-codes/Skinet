@@ -19,7 +19,7 @@ public static class ClaimsPrincipleExtensions
         return userToReturn;    
     }
 
-    public static async Task<AppUser> GetUserByEmailWithAdress(this UserManager<AppUser> userManager, ClaimsPrincipal user)
+    public static async Task<AppUser> GetUserByEmailWithAddress(this UserManager<AppUser> userManager, ClaimsPrincipal user)
     {
         var userToReturn = await userManager.Users
             .Include(x => x.Address)

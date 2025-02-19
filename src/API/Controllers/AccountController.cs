@@ -1,4 +1,3 @@
-using System;
 using System.Security.Claims;
 using API.DTOs;
 using API.Extensions;
@@ -6,26 +5,25 @@ using Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(SignInManager<AppUser> signInManager): BaseApiController
+public class AccountController(SignInManager<AppUser> signInManager) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult> Register(RegisterDto registerDTO)
+    public async Task<ActionResult> Register(RegisterDto registerDto)
     {
         var user = new AppUser
         {
-            FirstName = registerDTO.FirstName,
-            LastName = registerDTO.LastName,
-            Email = registerDTO.Email,
-            UserName = registerDTO.Email
+            FirstName = registerDto.FirstName,
+            LastName = registerDto.LastName,
+            Email = registerDto.Email,
+            UserName = registerDto.Email
         };
 
-        var result = await signInManager.UserManager.CreateAsync(user, registerDTO.Password);
+        var result = await signInManager.UserManager.CreateAsync(user, registerDto.Password);
 
-        if (!result.Succeeded) 
+        if (!result.Succeeded)
         {
             foreach (var error in result.Errors)
             {
@@ -43,52 +41,68 @@ public class AccountController(SignInManager<AppUser> signInManager): BaseApiCon
     public async Task<ActionResult> Logout()
     {
         await signInManager.SignOutAsync();
+
         return NoContent();
     }
-
 
     [HttpGet("user-info")]
     public async Task<ActionResult> GetUserInfo()
     {
-        if(User.Identity?.IsAuthenticated == false) return NoContent();
-        var user = await signInManager.UserManager.GetUserByEmailWithAdress(User);
+        if (User.Identity?.IsAuthenticated == false) return NoContent();
 
-        return Ok(new 
+        var user = await signInManager.UserManager.GetUserByEmailWithAddress(User);
+
+        return Ok(new
         {
-            user.Email,
             user.FirstName,
             user.LastName,
-            Address = user.Address?.ToDto()
+            user.Email,
+            Address = user.Address?.ToDto(),
+            Roles = User.FindFirstValue(ClaimTypes.Role)
         });
     }
 
-    [HttpGet]
-    public ActionResult GetAuthStat()
+    [HttpGet("auth-status")]
+    public ActionResult GetAuthState()
     {
-        return Ok(new {isAuthenticated = User.Identity?.IsAuthenticated ?? false});
+        return Ok(new { IsAuthenticated = User.Identity?.IsAuthenticated ?? false });
     }
 
     [Authorize]
     [HttpPost("address")]
-    public async Task<ActionResult> CreateOrUpdateAddress(AddressDto addressDto)
+    public async Task<ActionResult<Address>> CreateOrUpdateAddress(AddressDto addressDto)
     {
-        var user = await signInManager.UserManager.GetUserByEmailWithAdress(User);
+        var user = await signInManager.UserManager.GetUserByEmailWithAddress(User);
 
-        if(user.Address == null)
+        if (user.Address == null)
         {
             user.Address = addressDto.ToEntity();
         }
-        else
+        else 
         {
             user.Address.UpdateFromDto(addressDto);
         }
- 
+
         var result = await signInManager.UserManager.UpdateAsync(user);
 
-        if(!result.Succeeded) return BadRequest("Problem updating the user");
+        if (!result.Succeeded) return BadRequest("Problem updating user address");
 
         return Ok(user.Address.ToDto());
     }
+
+    [Authorize]
+    [HttpPost("reset-password")]
+    public async Task<ActionResult> ResetPassword(string currentPassword, string newPassword)
+    {
+        var user = await signInManager.UserManager.GetUserByEmail(User);
+
+        var result = await signInManager.UserManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+        if (result.Succeeded)
+        {
+            return Ok("Password updated");
+        } 
+
+        return BadRequest("Failed to update password");
+    }
 }
-
-
