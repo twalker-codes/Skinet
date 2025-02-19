@@ -33,8 +33,22 @@ export class LoginComponent {
   onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
-        this.accountService.getUserInfo();
-        this.router.navigateByUrl('/shop');
+        this.accountService.getUserInfo().subscribe({
+          next: user => {
+            console.log('User info received in component:', user); // Add this line for debugging
+            if (user) {
+              this.router.navigateByUrl('/shop');
+            } else {
+              console.error('User info is null');
+            }
+          },
+          error: err => {
+            console.error('Error fetching user info:', err);
+          }
+        });
+      },
+      error: err => {
+        console.error('Error during login:', err);
       }
     });
   }
