@@ -19,7 +19,16 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 });
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials()
+              .WithOrigins("http://localhost:4200", "https://localhost:4200");
+    });
+});
 builder.Services.AddSingleton<IConnectionMultiplexer>(config => 
 {
     var connString = builder.Configuration.GetConnectionString("Redis") 
@@ -48,8 +57,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-    .WithOrigins("http://localhost:4200","https://localhost:4200"));
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();    

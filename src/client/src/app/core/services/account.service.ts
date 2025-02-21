@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Address, User } from '../../shared/models/user';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({ 
   providedIn: 'root'
@@ -15,20 +15,20 @@ export class AccountService {
   login(values: any) {
     let params = new HttpParams();
     params = params.append('useCookies', true);
-    return this.http.post<User>(this.baseUrl + 'login', values, { params, withCredentials: true });
+    return this.http.post<User>(this.baseUrl + 'login', values, { params});
   }
 
   register(values: any) {
     return this.http.post(this.baseUrl + 'account/register', values);
   }
-
+  
   getUserInfo() {
-    return this.http.get<User>(this.baseUrl + 'account/user-info', { withCredentials: true }).pipe(
-      tap(user => {
-        console.log('User info received in service:', user); // Add this line for debugging
+    return this.http.get<User>(this.baseUrl + 'account/user-info').pipe(
+      map(user => {
         this.currentUser.set(user);
+        return user;
       })
-    );
+    )
   }
 
   logout() {
@@ -39,4 +39,7 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'account/address', address);
   }
 
+  getAuthState() {    
+    return this.http.get<{ isAuthenticated: boolean }>(this.baseUrl + 'account/auth-status');
+  }
 }

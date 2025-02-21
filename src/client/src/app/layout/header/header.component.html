@@ -24,8 +24,15 @@
                class="custom-badge mt-2 mr-2">
                <mat-icon class="inline-block origin-center transform scale-[1.5]">shopping_cart</mat-icon>
             </a>
-            <button mat-stroked-button routerLink="/account/login">Login</button>
-            <button mat-stroked-button routerLink="/account/register">Register</button>
+            @if (accountService.currentUser()) {
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <mat-icon>arrow_drop_down</mat-icon>
+                    <span>{{accountService.currentUser()?.email}}</span>
+                </button>
+            } @else {
+                <button mat-stroked-button routerLink="/account/login">Login</button>
+                <button mat-stroked-button routerLink="/account/register">Register</button>
+            }
         </div>
     </div>
 </header>
@@ -34,3 +41,18 @@
     <mat-progress-bar mode="indeterminate" class="fixed top-20 z-50"></mat-progress-bar>
 }
 
+<mat-menu #menu="matMenu" class="px-5">
+    <button mat-menu-item class="px-3" routerLink="/cart">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>My Cart</span>
+    </button>
+    <button mat-menu-item class="px-3" routerLink="/orders">
+        <mat-icon>history</mat-icon>
+        <span>My Orders</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="px-3" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+    </button>
+</mat-menu>
