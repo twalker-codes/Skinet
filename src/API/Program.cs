@@ -73,10 +73,13 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();    
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>();   // api/login
 app.MapHub<NotificationHub>("/hub/notification");
+app.MapFallbackToController("Index", "Fallback"); // Fallback to the Index action of the FallbackController
 
 try
 {
